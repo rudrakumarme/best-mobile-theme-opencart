@@ -1,6 +1,6 @@
 # Best Mobile Theme Lite (BMT) for OpenCart
 
-BMT is a revolutionary mobile theme for OpenCart, designed to offer the best possible user experience on mobile devices. With 5,000+ downloads on the OpenCart marketplace, BMT adapts your eCommerce store to mobile, providing an app-like experience without the need for a subdomain or redirection.
+BMT is a revolutionary mobile theme for OpenCart, designed to offer the best possible user experience on mobile devices. With 5,000+ downloads on the OpenCart marketplace[https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=35163], BMT adapts your eCommerce store to mobile, providing an app-like experience without the need for a subdomain or redirection.
 
 ## Features
 
