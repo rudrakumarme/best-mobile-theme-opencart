@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+    <id>best_mobile_theme_pro_3x</id>
+	<name>Best Mobile Theme Lite</name>
+    <version>3.0</version>
+    <link>https://clickrays.com</link>
+    <author><a href="https:/clickrays.com">clickrays.com</a></author>
+	<code>clickrays_best_mobile_theme_lite</code>
+	
+	<!-- Slideshow Swiper to Owl Carousel For Mobile Only -->
+	<file path="catalog/controller/extension/module/slideshow.php">
+    <operation error="skip">
+      <search><![CDATA[$this->document->addScript('catalog/view/javascript/jquery/swiper/js/swiper.jquery.js');]]></search>
+      <add position="after"><![CDATA[
+	  if ($this->config->get('is_mobile') && $this->config->get('theme_best_mobile_theme_status')) {     
+		$this->document->addStyle('catalog/view/theme/' . $this->config->get('config_theme') . '/javascript/jquery/swiper/css/swiper.min.css');
+		$this->document->addStyle('catalog/view/theme/' . $this->config->get('config_theme') . '/javascript/jquery/swiper/css/opencart.css');
+		$this->document->addScript('catalog/view/theme/' . $this->config->get('config_theme') . '/javascript/jquery/swiper/js/swiper.jquery.js');   
+		}]]></add>
+    </operation>
+	
+  </file>
+	
+	  <file path="catalog/controller/common/header.php">
+    <operation error="skip">
+      <search position="after"><![CDATA[$analytics = $this->model_setting_extension->getExtensions('analytics');]]></search>
+      <add><![CDATA[
+        if ($this->config->get('is_mobile') && $this->config->get('theme_best_mobile_theme_status')) { 
+          $this->load->language('mobile/mobile');
+          $data['text_cart'] = $this->language->get('text_cart');
+          $data['cart_count'] = $this->cart->countProducts();
+          $data['text_search'] = $this->language->get('text_search');
+          $data['text_add_to_cart'] = $this->language->get('text_add_to_cart');
+          $data['text_buy_now'] = $this->language->get('text_buy_now');
+          $data['text_wishlist_text'] = $this->language->get('text_wishlist_text');
+          $data['text_to_pay'] = $this->language->get('text_to_pay');
+          $data['text_select_all'] = $this->language->get('text_select_all');
+		  
+		  $data['category_link'] = $this->url->link('product/categoryhome');
+          $data['search_link'] = $this->url->link('product/search');
+          $data['cart_link'] = $this->url->link('checkout/cart');
+          $data['search_bar_position'] = $this->config->get('best_mobile_theme_homepage_search_bar_position') ?: 'fixed';
+          $data['text_search_placeholder'] = $this->language->get('text_search_placeholder');
+
+        	// For page specific css
+		if (isset($this->request->get['route'])) {
+			if (isset($this->request->get['product_id'])) {
+				$class = '-' . $this->request->get['product_id'];
+			} elseif (isset($this->request->get['path'])) {
+				$class = '-' . $this->request->get['path'];
+			} elseif (isset($this->request->get['manufacturer_id'])) {
+				$class = '-' . $this->request->get['manufacturer_id'];
+			} elseif (isset($this->request->get['information_id'])) {
+				$class = '-' . $this->request->get['information_id'];
+			} else {
+				$class = '';
+			}
+
+			$data['class'] = str_replace('/', '-', $this->request->get['route']) . $class;
+		} else {
+			$data['class'] = 'common-home';
+		}
+		  
+        }
+      ]]></add>
+    </operation>
+
+    <operation error="skip">
+      <search position="before"><![CDATA[$data['title'] = $this->document->getTitle();]]></search>
+      <add><![CDATA[
+         if ($this->config->get('is_mobile') && $this->config->get('theme_best_mobile_theme_status')) { 
+          $this->document->addStyle('catalog/view/theme/' . $this->config->get('config_theme') . '/stylesheet/stylesheet.css');
+          $this->document->addScript('catalog/view/theme/' . $this->config->get('config_theme') . '/javascript/jquery.unveil.js');
+          $this->document->addScript('catalog/view/theme/' . $this->config->get('config_theme') . '/javascript/simple-popup/jquery.prompt.js');
+          $this->document->addStyle('catalog/view/theme/' . $this->config->get('config_theme') . '/javascript/simple-popup/jquery.prompt.css');
+        }
+      ]]></add>
+    </operation>
+
+    <operation error="skip">
+      <search position="after"><![CDATA[$data['title'] = $this->document->getTitle();]]></search>
+      <add><![CDATA[
+        if ($this->config->get('is_mobile') && $this->config->get('theme_best_mobile_theme_status')) { 
+          $data['link_search'] = $this->url->link('product/search');
+          $data['link_category'] = $this->url->link('product/categoryhome');
+          $data['text_please_wait'] = $this->language->get('text_please_wait');
+        }
+      ]]></add>
+    </operation>
+  </file>
+  
+  
+  <file path="catalog/controller/product/product.php">
+    <operation error="skip">
+      <search position="before"><![CDATA[$this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');]]></search>
+      <add><![CDATA[
+        if ($this->config->get('is_mobile') && $this->config->get('theme_best_mobile_theme_status')) { 
+		
+		   $this->document->addStyle('catalog/view/theme/' . $this->config->get('config_theme') . '/javascript/jquery/owl-carousel2/assets/owl.carousel.min.css');
+          $this->document->addScript('catalog/view/theme/' . $this->config->get('config_theme') . '/javascript/jquery/owl-carousel2/owl.carousel.min.js');
+		  
+          $this->document->addScript('catalog/view/theme/' . $this->config->get('config_theme') . '/javascript/swipebox/jquery.swipebox.min.js');
+          $this->document->addStyle('catalog/view/theme/' . $this->config->get('config_theme') . '/javascript/swipebox/swipebox.min.css');
+          $this->document->addScript('catalog/view/theme/' . $this->config->get('config_theme') . '/javascript/imagesloaded.pkgd.min.js');
+          $this->load->language('mobile/mobile');
+          $data['text_details'] = $this->language->get('text_details');
+          $data['text_discount_label'] = $this->language->get('text_discount_label');
+          $data['text_tab_review'] = $this->language->get('text_tab_review');
+          $data['text_option_required'] = $this->language->get('text_option_required');
+          $data['text_added_to_cart'] = $this->language->get('text_added_to_cart');
+          $data['text_added_to_cart_redirect'] = $this->language->get('text_added_to_cart_redirect');
+          $data['button_back'] = $this->language->get('button_back');
+        }
+		
+      ]]></add>
+    </operation>
+
+  </file>
+
+
+  <file path="catalog/controller/common/footer.php">
+    <operation error="skip">
+      <search position="after"><![CDATA[$data['powered']]]></search>
+      <add><![CDATA[
+	  
+		
+        if ($this->config->get('is_mobile') && $this->config->get('theme_best_mobile_theme_status')) { 
+		$this->config->load('clickrays/bmt');
+          $copyright = $this->config->get('clickrays_powered');
+            $data['powered'] = html_entity_decode($copyright, ENT_QUOTES, 'UTF-8');
+          
+		  
+
+        
+          if (!isset($this->request->get['route'])) {
+            $data['redirect'] = $this->url->link('common/home');
+          } else {
+            $url_data = $this->request->get;
+
+            unset($url_data['_route_']);
+
+            $route = $url_data['route'];
+
+            unset($url_data['route']);
+
+            $url = '';
+
+            if ($url_data) {
+              $url = '&' . urldecode(http_build_query($url_data, '', '&'));
+            }
+
+            $data['redirect'] = $this->url->link($route, $url, $this->request->server['HTTPS']);
+          }
+
+          $this->load->language('mobile/mobile');
+          $data['text_cancel'] = $this->language->get('text_cancel');
+          $data['text_select_language'] = $this->language->get('text_select_language');
+          $data['language_action'] = $this->url->link('common/language/language', '', $this->request->server['HTTPS']);
+          $data['current_lang_code'] = $this->session->data['language'];
+          $this->load->model('localisation/language');
+          $data['languages'] = array();
+          $results = $this->model_localisation_language->getLanguages();
+          foreach ($results as $result) {
+            if ($result['status']) {
+              $data['languages'][] = array(
+                'name'  => $result['name'],
+                'code'  => $result['code'],
+                'image' => $result['image']
+              );
+            }
+          }
+
+          $data['text_select_currency'] = $this->language->get('text_select_currency');
+          $data['currency_action'] = $this->url->link('common/currency/currency', '', $this->request->server['HTTPS']);
+          $data['current_currency_code'] = $this->session->data['currency'];
+          $data['currencies'] = array();
+          $this->load->model('localisation/currency');
+          $results = $this->model_localisation_currency->getCurrencies();
+          foreach ($results as $result) {
+            if ($result['status']) {
+              $data['currencies'][] = array(
+                'title'        => $result['title'],
+                'code'         => $result['code'],
+                'symbol_left'  => $result['symbol_left'],
+                'symbol_right' => $result['symbol_right']
+              );
+            }
+          }
+        }
+      ]]></add>
+    </operation>
+  </file>
+
+	 <file path="admin/controller/common/dashboard.php">
+	 
+	 <operation>
+      <search><![CDATA[public function index() {]]></search>
+      <add position="before"><![CDATA[public function __construct($registry) {
+        parent::__construct($registry);
+		
+		if(!isset($this->clickrays_platform)){
+			$clickrays_platform = new clickraysLib($this->registry);
+			$this->registry->set('clickrays_platform', $clickrays_platform);
+		}	
+        // Config Loader
+        $this->config->load('clickrays/bmt');
+		$this->moduleC				= $this->config->get('best_mobile_theme_clickrays');
+    }]]></add>
+    </operation>
+	 
+      <operation>
+      <search><![CDATA[$data['breadcrumbs'] = array();]]></search>
+      <add position="before"><![CDATA[
+	  
+	  $notification = $this->clickrays_platform->Notification($this->moduleC);
+	  $data['promotion'] = $notification;
+	  
+	  
+	  ]]></add>
+    </operation>
+  </file>
+  
+   <file path="admin/view/template/common/dashboard.twig">
+      <operation>
+      <search><![CDATA[<div class="container-fluid">]]></search>
+      <add position="after"><![CDATA[{{ promotion }}]]></add>
+    </operation>
+  </file>
+  
+  <file path="catalog/view/theme/best_mobile_theme/template/common/header.tpl">
+      <operation>
+      <search><![CDATA[<body]]></search>
+      <add position="after"><![CDATA[
+	  
+	  <style>
+	  
+	  /* width */
+html::-webkit-scrollbar {
+  display:none;
+}
+
+/* Track */
+html::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+html::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+html::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.quick-icon-link-widget-scroll::-webkit-scrollbar {
+  display:none;
+}
+	  
+	  </style>
+	  
+	  ]]></add>
+    </operation>
+  </file>
+	
+	<file path="system/library/config.php">
+    <operation error="skip">
+      <search><![CDATA[private $data = array();]]></search>
+      <add position="after"><![CDATA[private $mobile = false;
+        public function __construct()
+        {
+          $isMobile = is_mobile() || is_desktop() || is_tablet();
+          $this->set('is_mobile', $isMobile);
+          $this->mobile = $isMobile;
+        }]]></add>
+    </operation>
+    <operation error="skip">
+      <search><![CDATA[public function get($key) {]]></search>
+      <add position="after"><![CDATA[if($this->mobile && 'config_theme' == $key && $this->get('theme_best_mobile_theme_status')) {
+          return 'best_mobile_theme';
+        }]]></add>
+    </operation>
+  </file>
+
+  <file path="system/startup.php">
+      <operation>
+      <search><![CDATA[require_once(DIR_SYSTEM . 'helper/general.php');]]></search>
+      <add position="after"><![CDATA[require_once(DIR_SYSTEM . 'helper/detect.php');]]></add>
+    </operation>
+  </file>
+  
+
+</modification>
